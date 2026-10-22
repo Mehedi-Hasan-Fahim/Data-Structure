@@ -1,0 +1,59 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+
+void countSort(vector<int>& array) {
+    int size = array.size();
+
+    // Step 1: Find the maximum value
+    int max = array[0];
+    for (int i = 1; i < size; i++) {
+        if (array[i] > max)
+            max = array[i];
+    }
+
+    // Step 2: Create count and output arrays
+    vector<int> count(max + 1, 0);   // Count array initialized to 0
+    vector<int> output(size);        // Output array (no need to initialize)
+
+    // Step 3: Store the count of each element
+    for (int i = 0; i < size; i++) {
+        count[array[i]]++;
+    }
+
+    // Step 4: Store the cumulative count
+    for (int i = 1; i <= max; i++) {
+        count[i] += count[i - 1];
+    }
+
+    // Step 5: Place elements in sorted order (stable sort)
+    for (int i = size - 1; i >= 0; i--) {
+        output[count[array[i]] - 1] = array[i];
+        count[array[i]]--;
+    }
+
+    // Step 6: Copy the sorted elements back to the original array
+    array = output;
+}
+
+// Print function using vector
+void printArray(const vector<int>& array) {
+    for (int num : array)
+        cout << num << " ";
+    cout << endl;
+}
+
+// Driver code
+int main() {
+    vector<int> array = {4, 2, 2, 8, 3, 3, 1};
+
+    cout << "Original array: ";
+    printArray(array);
+
+    countSort(array);
+
+    cout << "Sorted array: ";
+    printArray(array);
+
+    return 0;
+}

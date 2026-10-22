@@ -1,0 +1,130 @@
+#include<iostream>
+using namespace std;
+
+void show(int A[], int size) {
+    for (int i = 0; i < size; i++) {
+        cout << A[i] << " ";
+    }
+    cout << endl;
+}
+
+
+
+
+void swap(int &a, int &b) {
+  int t = a;
+  a = b;
+  b = t;
+}
+
+int asc_partition(int A[],int l,int h){
+    int pivot=A[l];
+    int i=l;int j=h;
+    while(i<j){
+        while(A[i]<=pivot){
+            i++;
+        }
+        while(A[j]>pivot){
+            j--;
+        }
+       if(i<j){ 
+        swap(A[i],A[j]);
+       }
+    }
+    swap(A[l],A[j]);
+    return j;
+}
+
+
+void asc_quick_sort(int A[],int l,int h){
+    if(l<h){
+        int j=asc_partition(A,l,h);
+        asc_quick_sort(A,l,j-1);
+        asc_quick_sort(A,j+1,h);
+    }
+}
+
+
+int dsc_partition(int A[],int l,int h){
+    int pivot=A[l];
+    int i=l;int j=h;
+    while(i<j){
+        while(A[i]>=pivot){
+            i++;
+        }
+        while(A[j]<pivot){
+            j--;
+        }
+       if(i<j){ 
+        swap(A[i],A[j]);
+       }
+    }
+    swap(A[l],A[j]);
+    return j;
+}
+
+
+void dsc_quick_sort(int A[],int l,int h){
+    if(l<h){
+        int j=dsc_partition(A,l,h);
+        dsc_quick_sort(A,l,j-1);
+        dsc_quick_sort(A,j+1,h);
+    }
+}
+
+
+
+int main() {
+    int A[50], size;
+    char choice;
+
+    cout << "Enter Input Size:";
+    cin >> size;
+
+    cout << "Enter Array Elements:" << endl;
+    for (int i = 0; i < size; i++) {
+        cin >> A[i];
+    }
+
+    do {
+        cout << "\nMenu:\n";
+        cout << "5.Quick sort\n";
+        cout << "6.Exit\n";
+        cout << "Enter your choice: ";
+        cin >> choice;
+
+        switch (choice) {
+            case '5':
+                     do {
+                        cout << "1.ascending  sort\n";
+                        cout << "2.descending sort\n";
+                        cout << "3.exit\n";
+                        cout << "Enter your choice: ";
+                        cin >> choice;
+                        switch (choice) {
+                            case '1':
+                                asc_quick_sort(A,0,size-1);
+                                show(A, size);
+                                break;
+                            case '2':
+                                dsc_quick_sort(A,0,size-1);
+                                show(A, size);
+                                break;
+                            case '3':
+                                break;
+                            default:
+                                cout << "Invalid choice. Please enter a valid option.\n";
+                        }
+                    } while (choice != '3');
+                
+                break;
+                    
+            case '6':
+                break;
+            default:
+                cout << "Invalid choice. Please enter a valid option.\n";
+        }
+    } while (choice != '6');
+
+    return 0;
+}

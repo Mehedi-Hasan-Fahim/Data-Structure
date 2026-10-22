@@ -1,0 +1,74 @@
+// Radix Sort in C++ Programming
+
+#include <iostream>
+#include <vector>
+using namespace std;
+
+// Function to get the largest element from an array
+int getMax(vector<int>& array, int size) {
+  int max = array[0];
+  for (int i = 1; i < size; i++) {
+        if (array[i] > max)
+            max = array[i];
+    }
+  return max;
+}
+
+// Using counting sort to sort the elements in the basis of significant places
+void countingSort(vector<int>& array, int size, int pos) {
+   
+  // Step 1: Find the maximum value
+  int max = getMax(array, size);
+
+   // Step 2: Create count and output arrays
+    vector<int> count(max + 1, 0);   // Count array initialized to 0
+    vector<int> output(size);        // Output array (no need to initialize)
+
+  // Step 3: Store the count of each element
+  for (int i = 0; i < size; i++)
+    count[(array[i] / pos) % 10]++;
+
+  // Step 4: Store the cumulative count
+  for (int i = 1; i <= max; i++)
+    count[i] += count[i - 1];
+
+  // Step 5: Place elements in sorted order
+  for (int i = size - 1; i >= 0; i--) {
+    output[count[(array[i] / pos) % 10] - 1] = array[i];
+    count[(array[i] / pos) % 10]--;
+  }
+
+  // Step 6: Copy the sorted elements back to the original array
+    array = output;
+}
+
+// Main function to implement radix sort
+void radixsort(vector<int>& array) {
+  int size = array.size();
+  // Get maximum element
+  int max = getMax(array, size);
+
+  // Apply counting sort to sort elements based on place value.
+  for (int pos = 1; max / pos > 0; pos *= 10)
+    countingSort(array, size, pos);
+}
+
+// Print function using vector
+void printArray(const vector<int>& array) {
+    for (int num : array)
+        cout << num << " ";
+    cout << endl;
+}
+
+// Driver code
+int main() {
+    vector<int> array = {121, 432, 564,1, 23, 100, 45, 788};
+    cout << "Original array: ";
+    printArray(array);
+
+    radixsort(array);
+
+    cout << "Sorted array: ";
+    printArray(array);
+  
+}

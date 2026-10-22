@@ -1,0 +1,99 @@
+#include<iostream>
+using namespace std;
+
+void show(int A[], int size) {
+    for (int i = 0; i < size; i++) {
+        cout << A[i] << " ";
+    }
+    cout << endl;
+}
+void asc_selection_sort(int A[], int size) {
+    int temp, i, j, index_min;
+    for (i = 0; i < size - 1; i++) {
+        index_min = i;
+        for (j = i + 1; j < size; j++) {
+            if (A[j] < A[index_min]) {
+                index_min = j;
+            }
+        }
+        if (index_min != i) {
+            temp = A[i];
+            A[i] = A[index_min];
+            A[index_min] = temp;
+        }
+    }
+}
+
+void dsc_selection_sort(int A[], int size) {
+    int temp, i, j, index_max;
+    for (i = 0; i < size - 1; i++) {
+        index_max = i;
+        for (j = i + 1; j < size; j++) {
+            if (A[j] > A[index_max]) {
+                index_max = j;
+            }
+        }
+        if (index_max != i) {
+            temp = A[i];
+            A[i] = A[index_max];
+            A[index_max] = temp;
+        }
+    }
+}
+
+int main() {
+    int A[50], size;
+    char choice;
+
+    cout << "Enter Input Size:";
+    cin >> size;
+
+    cout << "Enter Array Elements:" << endl;
+    for (int i = 0; i < size; i++) {
+        cin >> A[i];
+    }
+
+    do {
+        cout << "\nMenu:\n";
+        cout << "2.Selection sort\n";
+        cout << "6.Exit\n";
+        cout << "Enter your choice: ";
+        cin >> choice;
+
+        switch (choice) {
+            case '2':
+                
+                    do {
+                        cout << "1.ascending  sort\n";
+                        cout << "2.descending sort\n";
+                        cout << "3.exit\n";
+                        cout << "Enter your choice: ";
+                        cin >> choice;
+                        switch (choice) {
+                            case '1':
+                                asc_selection_sort(A, size);
+                                show(A, size);
+                                break;
+                            case '2':
+                                dsc_selection_sort(A, size);
+                                show(A, size);
+                                break;
+                            case '3':
+                                break;
+                            default:
+                                cout << "Invalid choice. Please enter a valid option.\n";
+                        }
+                    } while (choice != '3');
+                
+                break;
+            case '6':
+                break;
+            default:
+                cout << "Invalid choice. Please enter a valid option.\n";
+        }
+    } while (choice != '6');
+
+    return 0;
+}
+
+

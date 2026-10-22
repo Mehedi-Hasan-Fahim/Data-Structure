@@ -1,0 +1,218 @@
+ #include<iostream>
+using namespace std;
+
+void show(int A[], int size) {
+    for (int i = 0; i < size; i++) {
+        cout << A[i] << " ";
+    }
+    cout << endl;
+}
+
+void asc_insertion_sort(int A[], int size) {
+    int i, j, temp;
+    for (i = 1; i < size; i++) {
+        temp = A[i];
+        j = i - 1;
+
+        while (j >= 0 && A[j] > temp) {
+            A[j + 1] = A[j];
+            j--;
+        }
+        A[j + 1] = temp;
+    }
+}
+
+void dsc_insertion_sort(int A[], int size) {
+    int i, j, temp;
+    for (i = 1; i < size; i++) {
+        temp = A[i];
+        j = i - 1;
+
+        while (j >= 0 && A[j] < temp) {
+            A[j + 1] = A[j];
+            j--;
+        }
+        A[j + 1] = temp;
+    }
+}
+
+void asc_selection_sort(int A[], int size) {
+    int temp, i, j, index_min;
+    for (i = 0; i < size - 1; i++) {
+        index_min = i;
+        for (j = i + 1; j < size; j++) {
+            if (A[j] < A[index_min]) {
+                index_min = j;
+            }
+        }
+        if (index_min != i) {
+            temp = A[i];
+            A[i] = A[index_min];
+            A[index_min] = temp;
+        }
+    }
+}
+
+void dsc_selection_sort(int A[], int size) {
+    int temp, i, j, index_max;
+    for (i = 0; i < size - 1; i++) {
+        index_max = i;
+        for (j = i + 1; j < size; j++) {
+            if (A[j] > A[index_max]) {
+                index_max = j;
+            }
+        }
+        if (index_max != i) {
+            temp = A[i];
+            A[i] = A[index_max];
+            A[index_max] = temp;
+        }
+    }
+}
+
+void asc_bubble_sort(int A[], int size) {
+    int i, j, temp;
+    for (i = 0; i < size - 1; i++) {
+        for (j = 0; j < size - i - 1; j++) {
+            if (A[j] > A[j + 1]) {
+                temp = A[j];
+                A[j] = A[j + 1];
+                A[j + 1] = temp;
+            }
+        }
+    }
+}
+
+void dsc_bubble_sort(int A[], int size) {
+    int i, j, temp;
+    for (i = 0; i < size - 1; i++) {
+        for (j = 0; j < size - i - 1; j++) {
+            if (A[j] < A[j + 1]) {
+                temp = A[j];
+                A[j] = A[j + 1];
+                A[j + 1] = temp;
+            }
+        }
+    }
+}
+
+int main() {
+    int A[50], size;
+    char choice;
+    bool sortingFlag = true,
+         sortingFlag1 = true,
+         sortingFlag2 = true,
+         sortingFlag3 = true;
+      
+
+    cout << "Enter Input Size:";
+    cin >> size;
+
+    cout << "Enter Array Elements:" << endl;
+    for (int i = 0; i < size; i++) {
+        cin >> A[i];
+    }
+
+    while (sortingFlag) {
+        cout << "\nMenu:\n";
+        cout << "1.Insertion sort\n";
+        cout << "2.Selection sort\n";
+        cout << "3.Bubble sort\n";
+        cout << "4.Merge sort\n";
+        cout << "5.Redox sort\n";
+        cout << "6.Exit\n";
+        cout << "Enter your choice: ";
+        cin >> choice;
+
+        switch (choice) {
+            case '1':
+                
+                   
+                    while (sortingFlag1) {
+                        cout << "1.ascending  sort\n";
+                        cout << "2.descending sort\n";
+                        cout << "3.exit\n";
+                        cout << "Enter your choice: ";
+                        cin >> choice;
+                        switch (choice) {
+                            case '1':
+                                asc_insertion_sort(A, size);
+                                show(A, size);
+                                break;
+                            case '2':
+                                dsc_insertion_sort(A, size);
+                                show(A, size);
+                                break;
+                            case '3':
+                                sortingFlag1 = false;
+                                break;
+                            default:
+                                cout << "Invalid choice. Please enter a valid option.\n";
+                        }
+                    }
+                
+                break;
+            case '2':
+                
+                   
+                    while (sortingFlag2) {
+                        cout << "1.ascending  sort\n";
+                        cout << "2.descending sort\n";
+                        cout << "3.exit\n";
+                        cout << "Enter your choice: ";
+                        cin >> choice;
+                        switch (choice) {
+                            case '1':
+                                asc_selection_sort(A, size);
+                                show(A, size);
+                                break;
+                            case '2':
+                                dsc_selection_sort(A, size);
+                                show(A, size);
+                                break;
+                            case '3':
+                                sortingFlag2 = false;
+                                break;
+                            default:
+                                cout << "Invalid choice. Please enter a valid option.\n";
+                        }
+                    }
+                
+                break;
+            case '3':
+                
+                    
+                    while (sortingFlag3) {
+                        cout << "1.ascending  sort\n";
+                        cout << "2.descending sort\n";
+                        cout << "3.exit\n";
+                        cout << "Enter your choice: ";
+                        cin >> choice;
+                        switch (choice) {
+                            case '1':
+                                asc_bubble_sort(A, size);
+                                show(A, size);
+                                break;
+                            case '2':
+                                dsc_bubble_sort(A, size);
+                                show(A, size);
+                                break;
+                            case '3':
+                                sortingFlag3 = false;
+                                break;
+                            default:
+                                cout << "Invalid choice. Please enter a valid option.\n";
+                        }
+                    }
+                
+                break;
+            case '6':
+                sortingFlag = false;
+                break;
+            default:
+                cout << "Invalid choice. Please enter a valid option.\n";
+        }
+    }
+
+    return 0;
+}

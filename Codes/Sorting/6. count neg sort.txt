@@ -1,0 +1,60 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+
+void countSort(vector<int>& array) {
+    int size = array.size();
+
+    // Step 1: Find min and max
+    int min = array[0], max = array[0];
+    for (int i = 1; i < size; i++) {
+        if (array[i] < min) min = array[i];
+        if (array[i] > max) max = array[i];
+    }
+
+    int range = max - min + 1;
+
+    // Step 2: Create count and output vectors
+    vector<int> count(range, 0);       // all zeros
+    vector<int> output(size);          // no need to initialize
+
+    // Step 3: Count each element (with offset using min)
+    for (int i = 0; i < size; i++) {
+        count[array[i] - min]++;
+    }
+
+    // Step 4: Cumulative count
+    for (int i = 1; i < range; i++) {
+        count[i] += count[i - 1];
+    }
+
+    // Step 5: Build output (stable sort: go backward)
+    for (int i = size - 1; i >= 0; i--) {
+        output[count[array[i] - min] - 1] = array[i];
+        count[array[i] - min]--;
+    }
+
+    // Step 6: Copy back to original array
+    array = output;
+}
+
+// Print function
+void printArray(const vector<int>& array) {
+    for (int num : array) {
+        cout << num << " ";
+    }
+    cout << endl;
+}
+
+// Main function
+int main() {
+    vector<int> array = { 5, -1, -3, 1, 4, 2 };
+    cout << "Original array: ";
+    printArray(array);
+
+    countSort(array);
+
+    cout << "Sorted array: ";
+    printArray(array);
+    return 0;
+}

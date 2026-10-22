@@ -1,0 +1,26 @@
+#include <iostream>
+using namespace std;
+
+void asc_bubble_sort(int arr[], int size) {
+        for(int i=0;i<size-1;i++){
+           for(int j=0;j<size-i-1;j++){
+               if(arr[j]>arr[j+1])
+                  swap(arr[j],arr[j+1]);
+           }
+        }
+}
+void show(int arr[], int size) {
+    for (int i = 0; i < size; i++) {
+        cout << arr[i] << " ";
+    }
+    cout << endl;
+}
+
+int main() {
+
+    int arr[5]={5,12,0,1,8};
+    asc_bubble_sort(arr, 5);
+    //show(arr, 5);
+
+    return 0;
+}
