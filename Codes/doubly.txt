@@ -1,0 +1,183 @@
+#include<iostream>
+using namespace std;
+
+typedef struct node Node;
+
+struct node{
+    string id,name;
+    Node *next,*prev;
+};
+Node* head;
+
+Node* create_node(){
+    Node* new_node=new Node;
+    if(!new_node){
+         printf("Error! Could not Create A New Node\n");
+         exit(1);
+    }
+    cout<<"Enter ID:";
+    cin.ignore();
+    getline(cin,new_node->id);
+    cout<<"Enter Name:";
+    getline(cin,new_node->name);
+    new_node->next=NULL;
+    new_node->prev=NULL;
+    return new_node;
+}
+
+void insert_node(){
+    if(head==NULL){
+        head=create_node();
+    }
+    else{
+        int ch;
+        Node* new_node;
+        cout<<"1.Insert from front:"<<endl;
+        cout<<"2.Insert after specified number of node:"<<endl;
+        cin>>ch;
+        switch(ch){
+            case 1:
+                  new_node=create_node();
+                  new_node->next=head;
+                  head->prev = new_node;
+                  head=new_node;
+                  break;
+            case 2:
+                  int n;
+                  cout<<"Enter node number:"<<endl;
+                  cin>>n;
+                  Node* temp=head;
+                  for(int i=1;i<n;i++){
+                      temp=temp->next;
+                      if(temp==NULL){
+                          cout<<"Node doesn't exist"<<endl;
+                          break;
+                      }
+                  }
+                  new_node=create_node();
+                  new_node->next=temp->next;
+                  new_node->prev=temp;
+                  
+                  if(temp->next!=NULL){
+                       temp->next->prev=new_node;
+                  }
+                  temp->next = new_node;
+                  break;
+        }
+    }
+}
+
+void delete_node(){
+    if(head==NULL){
+        cout<<"No node to delete"<<endl;
+    }
+    else{
+        int ch;
+        Node* t=new Node;
+        cout<<"1.Delete from front:"<<endl;
+        cout<<"2.Delete specified node number:"<<endl;
+        cin>>ch;
+        switch(ch){
+            case 1:
+                 t=head;
+                 head=t->next;
+                 if(head != NULL) {
+                    head->prev = NULL;
+                 }
+                 delete t;
+                 break;
+            case 2:
+                 int n;
+                 cout<<"Enter node number:"<<endl;
+                 cin>>n;
+                 t=head;
+                 for(int i=1;i<n;i++){
+                     if(t->next==NULL){
+                         cout<<"Node doesn't exist"<<endl;
+                         break;
+                     }
+                     t=t->next;
+                 }
+                 Node* temp =head;
+                 for(int i=1;i<n-1;i++){
+                     temp=temp->next;
+                 }
+                 temp->next=t->next;
+                 t->prev=temp;
+                 
+                 delete t;
+                 break;
+        }
+        
+    }
+}
+void display_list(){
+  Node *current_node = head ;
+  if(head==NULL){
+      cout<<"Linked list is empty";
+      return ;
+  }
+  while(current_node != NULL){
+    cout<<current_node->name<<" :"<<current_node->id<<endl;
+    current_node = current_node->next;
+  }
+  printf("\n");
+}
+
+
+int main()
+{  
+    
+    
+	int input;
+    
+	head=NULL;
+
+	while(1)
+	{
+		printf("\n-- Menu Selection --\n");
+		printf("0) Quit\n");
+		printf("1) Insert\n");
+		printf("2) Display\n");
+		printf("3) Delete\n");
+		printf("4) Search\n");
+		printf("Enter choice: ");
+		scanf("%d", &input);
+
+		switch(input)
+		{
+			case 0:
+			default:
+				printf("Goodbye......\n");
+				exit(0);
+				break;
+
+			case 1:
+				printf("Insertion.....\n");
+				insert_node();
+				break;
+
+			case 2:
+				printf("Display.....\n");
+				display_list();
+				break;
+
+			case 3:
+				printf("Delete....\n");
+				delete_node();
+				break;
+
+            case 4:
+				printf("Search....\n");
+				//search();
+				break;
+
+				
+		}
+	}
+	
+	return 0;
+}
+
+
+

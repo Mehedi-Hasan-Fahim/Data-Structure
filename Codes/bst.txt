@@ -1,0 +1,228 @@
+#include<iostream>
+using namespace std;
+
+typedef struct node Node;
+
+// Structure for a node
+struct node {
+    int data;
+    Node* left;
+    Node* right;
+};
+
+// Function to create a new node
+Node* createNode(int data) {
+    Node* newNode = new Node;
+    newNode->data = data;
+    newNode->left = NULL;
+    newNode->right = NULL;
+    return newNode;
+}
+
+// Function to insert a node in the binary search tree
+Node* insertNode(Node* root, int data) {
+    if (root == NULL) {
+        root = createNode(data);
+        return root;
+    }
+    else {
+        if (data < root->data) {
+            root->left = insertNode(root->left, data);
+        }
+        else if (data > root->data) {
+            root->right = insertNode(root->right, data);
+        }
+        else {
+            cout << "Duplicate data! Not allowed.\n";
+        }
+        return root;
+    }
+}
+
+// Function to perform preorder traversal of the binary tree
+void preorderTraversal(Node* root) {
+    if (root == NULL){
+        return;
+    }
+    cout<<root->data<<" ";
+    if(root->left!=NULL){
+        preorderTraversal(root->left);
+    }
+    if(root->right!=NULL){
+        preorderTraversal(root->right);
+    }
+}
+
+// Function to perform inorder traversal of the binary tree
+void inorderTraversal(Node* root) {
+   if (root == NULL){
+        return;
+    }
+    if(root->left!=NULL){
+       inorderTraversal(root->left);
+    }
+    cout<<root->data<<" ";
+    if(root->right!=NULL){
+       inorderTraversal(root->right);
+    }
+}
+
+// Function to perform postorder traversal of the binary tree
+void postorderTraversal(Node* root) {
+    if (root == NULL){
+        return;
+    }
+    if(root->left!=NULL){
+       postorderTraversal(root->left);
+    }
+    if(root->right!=NULL){
+       postorderTraversal(root->right);
+    }
+     cout<<root->data<<" ";
+}
+
+// Function to display the binary tree based on traversal option
+void displayBinaryTree(Node* root) {
+    int option;
+    cout<<"\nSelect traversal option:\n";
+    cout<<"1. Preorder Traversal\n";
+    cout<<"2. Inorder Traversal\n";
+    cout<<"3. Postorder Traversal\n";
+    cout<<"Enter your choice: ";
+    cin>>option;
+
+    switch (option) {
+    case 1:
+        cout<<"\nPreorder traversal: ";
+        preorderTraversal(root);
+        break;
+    case 2:
+        cout<<"\nInorder traversal: ";
+        inorderTraversal(root);
+        break;
+    case 3:
+        cout<<"\nPostorder traversal: ";
+        postorderTraversal(root);
+        break;
+    default:
+        cout<<"Invalid choice! Please enter a valid option.\n";
+        break;
+    }
+
+    printf("\n");
+}
+
+void search(Node* root){
+    Node* node=root;
+    int item,flag;
+    cout<<"Enter Search item:"<<endl;
+    cin>>item;
+    while(node!=NULL){
+        if(node->data==item){
+            cout<<"Item is found"<<endl;
+            flag=0;
+        }
+        else{
+            flag=1;
+        }
+        if(item<node->data){
+            node=node->left;
+        }else{
+            node=node->right;
+        }
+    }
+    if(flag==1)
+        {
+            cout<<"\nItem not found\n";
+        }
+}
+
+// Function to find the minimum value node in a BST
+Node* findMin(Node* node) {
+    while (node->left != NULL) {
+        node = node->left;
+    }
+    return node;
+}
+
+// Function to delete a node with the given key from the BST
+Node* deleteNode(Node* root, int key) {
+    if (root == NULL) {
+        return root;
+    }
+
+    // Search for the node to be deleted
+    if (key < root->data) {
+        root->left = deleteNode(root->left, key);
+    } else if (key > root->data) {
+        root->right = deleteNode(root->right, key);
+    } else {
+        // Node with only one child or no child
+        if (root->left == NULL) {
+            Node* temp = root->right;
+            delete root;
+            return temp;
+        } else if (root->right == NULL) {
+            Node* temp = root->left;
+            delete root;
+            return temp;
+        }
+
+        // Node with two children, get the inorder successor (smallest in the right subtree)
+        Node* temp = findMin(root->right);
+
+        // Copy the inorder successor's data to this node
+        root->data = temp->data;
+
+        // Delete the inorder successor
+        root->right = deleteNode(root->right, temp->data);
+    }
+    return root;
+}
+
+
+
+
+
+int main() {
+    Node* root = NULL;
+    int choice, data;
+
+    while (1) {
+        cout << "\nBinary Search Tree Operations\n";
+        cout << "1. Insert Node\n";
+        cout << "2. Display Binary Search Tree\n";
+        cout << "3. Search "<<endl;
+        cout << "4. Delete Node\n";
+        cout << "5. Exit\n";
+        cout << "Enter your choice: ";
+        cin >> choice;
+
+        switch (choice) {
+        case 1:
+            cout << "Enter data to insert: ";
+            cin >> data;
+            root = insertNode(root, data);
+            break;
+        case 2:
+            displayBinaryTree(root);
+            break;
+        case 3:
+            search(root);
+            break;
+        case 4:
+            cout << "Enter data to delete: ";
+            cin >> data;
+            root = deleteNode(root, data);
+            break;
+        case 5:
+            cout << "Exiting...\n";
+            exit(0);
+            default:
+            cout << "Invalid choice! Please enter a valid option.\n";
+            break;
+        }
+    }
+
+    return 0;
+}
